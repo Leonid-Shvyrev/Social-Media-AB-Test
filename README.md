@@ -43,9 +43,11 @@ Using Proportions Z-Tests (treating the funnel steps as Bernoulli trials), the T
 * **Conversion Rate:** p = 0.001 ***
 
 ### 2. Revenue Impact
-I utilized Welch’s T-Test for ARPU as it does not assume equal variance between groups, making it robust for skewed revenue data.
-* **ARPU Lift:** p = 0.019
-* **Statistical Note:** I prioritized the T-test over non-parametric alternatives (like Mann-Whitney U) because business decisions rely on the mean (total revenue impact), not just the rank/median.
+Revenue data is zero-inflated and right-skewed by a small percentage of high spenders. This makes standard parametric tests invalid for our data.
+
+To bypass these assumptions without resorting to rank-based tests (which ignore the actual monetary value of the revenue), I engineered a non-parametric Bootstrap Resampling simulation (10,000 iterations) to calculate an empirical confidence interval and p-value.
+
+* **P-Value:** 0.0202 *
 
 ### 3. Interaction Effects
 I ran Logistic Regression (for CTR/CR) and OLS (for ARPU) to check for interactions with `device_type`.
