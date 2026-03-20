@@ -64,7 +64,7 @@ I ran Logistic Regression (for CTR/CR) and OLS (for ARPU) to check for interacti
 
 ## Business Recommendation
 Based on the evidence, the Treatment campaign is a clear winner:
-1.  **Deploy Globally:** The Treatment variant significantly outperformed the Control, driving a 25.15% lift in ARPU.
+1.  **Deploy Globally:** The Treatment variant significantly outperformed the Control, driving a 25% lift in ARPU.
 2.  **Strong Funnel Efficiency:** The growth was driven by a 13% increase in engagement (CTR) and a 27% increase in conversion intent (CR).
 3.  **Universal Performance:** Interaction analysis indicates no performance gap between device types, making this a robust, low-risk rollout.
 
