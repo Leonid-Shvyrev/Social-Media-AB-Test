@@ -25,7 +25,7 @@ I prioritized **User-Level Metrics** over Event-Level logs to ensure the indepen
 | :--- | :--- | :--- |
 | **User-CTR** | Users with ≥1 click / Total Users | Measures the breadth of campaign appeal. |
 | **Conversion Rate (CR)** | Users with ≥1 conv / Total Users | Unconditional metric to avoid selection/collider bias. |
-| **ARPU** | Total Revenue / Total Users | The "North Star" financial metric for ROI. |
+| **ARPU** | Total Revenue / Total Users | The financial metric for ROI. |
 
 ### Performance Summary
 | Group | User-CTR | Conversion Rate | ARPU |
