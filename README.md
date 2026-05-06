@@ -1,57 +1,110 @@
-# Social Media A/B Test: Funnel & Revenue Impact Analysis
+# Social Media A/B Test: Impact on Engagement and Revenue
 
-## Executive Summary
-This project evaluates the performance of a new social media campaign creative (Treatment) against the current baseline (Control). By implementing a rigorous statistical pipeline in Python, I analyzed user-level engagement and revenue impact.
+## Business Context
+A new social media campaign creative (Treatment) was tested against the current baseline (Control) to improve user engagement and monetization.
 
-**The Bottom Line:** The Treatment variant drove a statistically significant lift in CTR, CR and ARPU. With no significant interaction effects across devices, I recommend a **rollout** of the Treatment campaign.
-
----
-
-## The Data Pipeline
-I implemented a strict integrity pipeline to ensure causal validity:
-
-* **Sample Ratio Mismatch (SRM) Check:** Conducted a Chi-Square test (p=0.9093) to verify that the 50/50 traffic split was not compromised by the randomization engine.
-* **Contamination Filter:** Identified and removed users exposed to both variants to prevent "cross-talk" bias.
-* **Integrity Scrubbing:** Dropped impossible observations (e.g., clicks > impressions) and rows with missing identifiers.
-* **Outlier Management:** Applied **99th percentile Winsorization** specifically to paying users to prevent extreme "whales" from artificially skewing the ARPU.
+The goal was to evaluate whether the new creative drives higher user interaction and revenue, and whether it should be rolled out at scale.
 
 ---
 
-## Key Performance Indicators
-
-I prioritized **User-Level Metrics** over Event-Level logs to ensure the independence of observations—a core requirement for statistical testing.
-
-| Metric | Definition | Purpose |
-| :--- | :--- | :--- |
-| **User-CTR** | Users with ≥1 click / Total Users | Measures the breadth of campaign appeal. |
-| **Conversion Rate (CR)** | Users with ≥1 conv / Total Users | Unconditional metric to avoid selection/collider bias. |
-| **ARPU** | Total Revenue / Total Users | The financial metric for ROI. |
-
-### Performance Summary
-| Group | User-CTR | Conversion Rate | ARPU |
-| :--- | :--- | :--- | :--- |
-| **Control** | 59.7% | 10.8% | €4.88 |
-| **Treatment** | 67.6% | 13.8% | €6.11 |
+## Objective
+Measure the causal impact of the new campaign creative on:
+- User engagement (CTR)
+- Conversion behavior
+- Revenue per user (ARPU)
 
 ---
 
-## Statistical Results
+## Experiment Setup
+- A/B test with 50/50 traffic split  
+- User-level randomization  
+- Cleaned dataset after removing invalid and contaminated observations  
 
-### 1. Funnel Performance
-Using Proportions Z-Tests (treating the funnel steps as Bernoulli trials), the Treatment showed a significant increase in engagement:
-* **User-CTR:** p < 0.001 ***
-* **Conversion Rate:** p = 0.001 ***
+---
 
-### 2. Revenue Impact
-Revenue data is zero-inflated and right-skewed by a small percentage of high spenders. This makes standard parametric tests invalid for our data.
+## Data Validation
+To ensure validity of the experiment:
 
-To bypass these assumptions without resorting to rank-based tests (which ignore the actual monetary value of the revenue), I engineered a non-parametric Bootstrap Resampling simulation (10,000 iterations) to calculate an empirical confidence interval and p-value.
+- **Randomization check (SRM):** No imbalance detected (p = 0.909)  
+- **Contamination removal:** Users exposed to both variants were excluded  
+- **Data cleaning:** Removed inconsistent records (e.g., clicks > impressions)  
+- **Outlier handling:** Applied winsorization (99th percentile) on revenue  
 
-* **P-Value:** 0.0202 *
+---
 
-### 3. Interaction Effects
-I ran Logistic Regression (for CTR/CR) and OLS (for ARPU) to check for interactions with `device_type`.
-* **Result:** No significant interaction effects were found. This confirms the Treatment's success is universal and not dependent on a specific device category.
+## Metrics
+User-level metrics were used to ensure independence of observations:
+
+- **CTR:** % of users with at least one click  
+- **Conversion Rate:** % of users with at least one conversion  
+- **ARPU:** Total revenue / total users  
+
+---
+
+## Methodology
+- Proportion Z-tests for CTR and Conversion Rate  
+- Bootstrap resampling (10,000 iterations) for ARPU due to skewed distribution  
+
+---
+
+## Key Results
+
+The Treatment variant outperformed the Control across all key metrics:
+
+- **CTR:** +7.9 percentage points (67.6% vs 59.7%, p < 0.001)  
+- **Conversion Rate:** +3.0 percentage points (13.8% vs 10.8%, p = 0.001)  
+- **ARPU:** +€1.23 per user (+25%, €6.11 vs €4.88, p = 0.020)  
+
+---
+
+## Business Impact
+
+The uplift in ARPU translates into a meaningful increase in revenue.
+
+For example:
+- +€1.23 per user scales to **+€123,000 per 100,000 users**
+
+This indicates that the Treatment is not only statistically significant, but also economically valuable.
+
+---
+
+## Additional Analysis
+
+- No significant interaction effects across device types  
+- Performance improvements are consistent across segments  
+
+This suggests the Treatment effect is robust and generalizable.
+
+---
+
+## Limitations
+
+- The experiment duration may not capture long-term user behavior  
+- Results may vary depending on seasonality or campaign context  
+
+---
+
+## Recommendation
+
+Roll out the Treatment campaign globally.
+
+The variant delivers:
+- Significant improvements in engagement and conversion  
+- Strong and scalable revenue impact  
+- Consistent performance across user segments  
+
+### Next Steps
+- Monitor ARPU and retention after rollout  
+- Validate long-term impact with follow-up analysis  
+
+---
+
+## Tech Stack
+- Python  
+- Pandas, NumPy  
+- SciPy, Statsmodels  
+- Matplotlib, Seaborn  
+- Jupyter Notebook / Google Colab  
 
 ---
 
@@ -60,18 +113,3 @@ I ran Logistic Regression (for CTR/CR) and OLS (for ARPU) to check for interacti
 
 *Figure 1: Full-funnel impact with 95% Confidence Intervals and Significance Annotations.*
 
----
-
-## Business Recommendation
-Based on the evidence, the Treatment campaign is a clear winner:
-1.  **Deploy Globally:** The Treatment variant significantly outperformed the Control, driving a 25% lift in ARPU.
-2.  **Strong Funnel Efficiency:** The growth was driven by a 13% increase in engagement (CTR) and a 27% increase in conversion intent (CR).
-3.  **Universal Performance:** Interaction analysis indicates no performance gap between device types, making this a robust, low-risk rollout.
-
-
----
-
-## Tech Stack
-* **Language:** Python
-* **Libraries:** Pandas, NumPy, Scipy, Statsmodels, Matplotlib, Seaborn
-* **Environment:** Google Colab / Jupyter Notebook
